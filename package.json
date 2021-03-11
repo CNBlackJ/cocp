@@ -10,15 +10,16 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:coco.helloWorld"
+        "*"
 	],
 	"main": "./extension.js",
 	"contributes": {
-		"commands": [{
-            "command": "coco.helloWorld",
-            "title": "Hello World"
-
-		}]
+		"commands": [
+			{
+				"command": "coco.helloWorld",
+				"title": "Hello World"
+			}
+		]
 	},
 	"scripts": {
 		"lint": "eslint .",

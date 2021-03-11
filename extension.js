@@ -1,34 +1,77 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
+const provideCompletionItems = require('./provideCompletionItems');
+const Store = require('./store')
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+const COMPLETION_TRIGGERS = [
+	"0",
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+  " ",
+  ".",
+  "(",
+  ")",
+  "{",
+  "}",
+  "[",
+  "]",
+  ",",
+  ":",
+  "'",
+  '"',
+  "=",
+  "<",
+  ">",
+  "/",
+  "\\",
+  "+",
+  "-",
+  "|",
+  "&",
+  "*",
+  "%",
+  "=",
+  "$",
+  "#",
+  "@",
+  "!",
+	"\n"
+];
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "coco" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('coco.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from coco!');
-	});
-
-	context.subscriptions.push(disposable);
+	backgroundInit(context)
 }
 
 // this method is called when your extension is deactivated
 function deactivate() {}
+
+function backgroundInit(context) {
+	let disposable = vscode.commands.registerCommand('coco.helloWorld', function () {
+		vscode.window.showInformationMessage('Hello World from vinli!');
+	});
+	context.subscriptions.push(disposable);
+
+	new Store(context.globalState)
+
+  vscode.languages.registerCompletionItemProvider(
+    { pattern: "**" },
+    {
+			provideCompletionItems
+    },
+    ...COMPLETION_TRIGGERS
+  );
+}
 
 module.exports = {
 	activate,
